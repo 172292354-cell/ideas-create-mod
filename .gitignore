@@ -1,0 +1,21 @@
+# Gradle
+.gradle/
+build/
+
+# IDE
+.idea/
+.vscode/
+out/
+*.iml
+.classpath
+.project
+.settings/
+bin/
+
+# 运行目录（开发客户端/服务端/数据生成）
+run/
+run-data/
+
+# 其他
+eclipse/
+*.launch

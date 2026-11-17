@@ -1,0 +1,67 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "create:empty_blaze_burner"
+  },
+  "loops": 4,
+  "results": [
+    {
+      "item": "create:blaze_burner"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "ideas_create_mod:incomplete_blaze_burner"
+        },
+        {
+          "item": "minecraft:blaze_rod"
+        }
+      ],
+      "results": [
+        {
+          "item": "ideas_create_mod:incomplete_blaze_burner"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "ideas_create_mod:incomplete_blaze_burner"
+        },
+        {
+          "item": "minecraft:blaze_rod"
+        }
+      ],
+      "results": [
+        {
+          "item": "ideas_create_mod:incomplete_blaze_burner"
+        }
+      ]
+    },
+    {
+      "type": "create:filling",
+      "ingredients": [
+        {
+          "item": "ideas_create_mod:incomplete_blaze_burner"
+        },
+        {
+          "amount": 250,
+          "fluid": "minecraft:lava",
+          "nbt": {}
+        }
+      ],
+      "results": [
+        {
+          "item": "ideas_create_mod:incomplete_blaze_burner"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "ideas_create_mod:incomplete_blaze_burner"
+  }
+}

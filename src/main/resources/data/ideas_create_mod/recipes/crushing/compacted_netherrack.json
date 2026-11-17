@@ -1,0 +1,14 @@
+{
+  "type": "create:crushing",
+  "ingredients": [
+    {
+      "item": "ideas_create_mod:compacted_netherrack"
+    }
+  ],
+  "processingTime": 100,
+  "results": [
+    {
+      "item": "ideas_create_mod:crushed_netherrack"
+    }
+  ]
+}

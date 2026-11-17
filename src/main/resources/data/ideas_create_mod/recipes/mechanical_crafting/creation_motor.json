@@ -1,0 +1,39 @@
+{
+  "type": "create:mechanical_crafting",
+  "acceptMirrored": false,
+  "pattern": [
+    "ABC",
+    "DED",
+    "FGH"
+  ],
+  "key": {
+    "A": {
+      "item": "ideas_create_mod:kinetic_mechanism"
+    },
+    "B": {
+      "item": "ideas_create_mod:kinetic_mechanism"
+    },
+    "C": {
+      "item": "ideas_create_mod:kinetic_mechanism"
+    },
+    "D": {
+      "item": "ideas_create_mod:kinetic_mechanism"
+    },
+    "E": {
+      "item": "ideas_create_mod:creation_core"
+    },
+    "F": {
+      "item": "ideas_create_mod:kinetic_mechanism"
+    },
+    "G": {
+      "item": "ideas_create_mod:kinetic_mechanism"
+    },
+    "H": {
+      "item": "ideas_create_mod:kinetic_mechanism"
+    }
+  },
+  "result": {
+    "item": "create:creative_motor",
+    "count": 1
+  }
+}

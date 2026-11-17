@@ -1,0 +1,5 @@
+cd /d J:\xmmlzwtk_ideas_create_mod
+gradlew runClient     :: 启动开发客户端（已内置 Create + JEI）
+gradlew runServer     :: 启动开发服务端
+gradlew runData       :: 数据生成（JSON 配方/战利品表等）
+gradlew build         :: 打包 -> build/libs/*.jar

@@ -1,0 +1,134 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "create:precision_mechanism"
+  },
+  "loops": 10,
+  "results": [
+    {
+      "chance": 1.0,
+      "item": "ideas_create_mod:creation_core"
+    },
+    {
+      "chance": 99.0,
+      "item": "minecraft:dirt"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "ideas_create_mod:incomplete_creation_core"
+        },
+        {
+          "item": "minecraft:redstone_block"
+        }
+      ],
+      "results": [
+        {
+          "item": "ideas_create_mod:incomplete_creation_core"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "ideas_create_mod:incomplete_creation_core"
+        },
+        {
+          "item": "create:cogwheel"
+        }
+      ],
+      "results": [
+        {
+          "item": "ideas_create_mod:incomplete_creation_core"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "ideas_create_mod:incomplete_creation_core"
+        },
+        {
+          "item": "create:large_cogwheel"
+        }
+      ],
+      "results": [
+        {
+          "item": "ideas_create_mod:incomplete_creation_core"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "ideas_create_mod:incomplete_creation_core"
+        },
+        {
+          "item": "create:shaft"
+        }
+      ],
+      "results": [
+        {
+          "item": "ideas_create_mod:incomplete_creation_core"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "ideas_create_mod:incomplete_creation_core"
+        },
+        {
+          "item": "create:brass_block"
+        }
+      ],
+      "results": [
+        {
+          "item": "ideas_create_mod:incomplete_creation_core"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "ideas_create_mod:incomplete_creation_core"
+        },
+        {
+          "item": "minecraft:netherite_block"
+        }
+      ],
+      "results": [
+        {
+          "item": "ideas_create_mod:incomplete_creation_core"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "ideas_create_mod:incomplete_creation_core"
+        },
+        {
+          "item": "minecraft:nether_star"
+        }
+      ],
+      "results": [
+        {
+          "item": "ideas_create_mod:incomplete_creation_core"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "ideas_create_mod:incomplete_creation_core"
+  }
+}

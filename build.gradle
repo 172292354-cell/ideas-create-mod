@@ -1,0 +1,135 @@
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '[6.0.36,6.2)'
+}
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = mod_id
+}
+
+// Minecraft 1.20.1 使用 Java 17（缺失时 Gradle 会自动下载）
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
+
+minecraft {
+    // 使用 Mojang 官方映射
+    mappings channel: mapping_channel, version: mapping_version
+
+    // 运行前把资源复制到 IDE 运行目录
+    copyIdeResources = true
+
+    runs {
+        // 对下面所有运行配置生效
+        configureEach {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            // Create 开发环境必需：mixin refmap 重映射（官方 Wiki 要求）
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        // 开发客户端：gradlew runClient（带 Create + JEI）
+        client {
+        }
+
+        // 开发服务端：gradlew runServer
+        server {
+            args '--nogui'
+        }
+
+        // 数据生成：gradlew runData（生成配方/战利品表/模型等 JSON）
+        data {
+            workingDirectory project.file('run-data')
+            args '--mod', mod_id, '--all',
+                    '--output', file('src/generated/resources/'),
+                    '--existing', file('src/main/resources/')
+        }
+    }
+}
+
+// 数据生成的输出目录也作为资源目录
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+    // ----- 国内公共 Maven 镜像 -----
+    maven { name = 'AliyunPublic'   ; url = 'https://maven.aliyun.com/repository/public' }
+    maven { name = 'TencentPublic'  ; url = 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public/' }
+    maven { name = 'USTCMavenCentral'; url = 'https://mirrors.ustc.edu.cn/maven/maven2/' }
+
+    // ----- Forge 生态专用仓库（国内无镜像，必须保留） -----
+    maven { url = "https://maven.minecraftforge.net/" }                             // Forge / ForgeGradle 运行时
+    maven { url = "https://maven.createmod.net" }                                   // Create / Ponder / Flywheel
+    maven { url = "https://maven.ithundxr.dev/mirror" }                             // Registrate
+    maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" } // ForgeConfigAPIPort
+    maven { url = "https://maven.blamejared.com" }                                  // JEI
+    maven { url = "https://maven.tterrag.com/" }                                    // Registrate 回退源
+
+    // 兜底官方
+    mavenCentral()
+}
+
+dependencies {
+    // Minecraft + Forge
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    // ---------- Create 6（写法与版本均来自官方 Wiki） ----------
+    implementation(fg.deobf("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") { transitive = false })
+    implementation(fg.deobf("net.createmod.ponder:Ponder-Forge-${minecraft_version}:${ponder_version}"))
+    compileOnly(fg.deobf("dev.engine-room.flywheel:flywheel-forge-api-${minecraft_version}:${flywheel_version}"))
+    runtimeOnly(fg.deobf("dev.engine-room.flywheel:flywheel-forge-${minecraft_version}:${flywheel_version}"))
+    implementation(fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}"))
+    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixinextras_version}"))
+    implementation("io.github.llamalad7:mixinextras-forge:${mixinextras_version}")
+
+    // ---------- JEI：运行时加载完整版，runClient 中可直接查看配方 ----------
+    implementation(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
+}
+
+// 把 gradle.properties 里的变量填充进 mods.toml / pack.mcmeta
+var replaceProperties = [
+        minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
+        forge_version       : forge_version, forge_version_range: forge_version_range,
+        loader_version_range: loader_version_range,
+        mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+        mod_authors         : mod_authors, mod_description: mod_description,
+]
+
+tasks.named('processResources', ProcessResources) {
+    // expand 替换占位符时，统一用 UTF-8（避免 mods.toml 中文 description 乱码）
+    filteringCharset = 'UTF-8'
+    inputs.properties replaceProperties
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
+}
+
+tasks.named('jar', Jar) {
+    manifest {
+        attributes([
+                'Specification-Title'   : mod_id,
+                'Specification-Vendor'  : mod_authors,
+                'Specification-Version' : '1',
+                'Implementation-Title'  : project.name,
+                'Implementation-Version': project.jar.archiveVersion,
+                'Implementation-Vendor' : mod_authors
+        ])
+    }
+    finalizedBy 'reobfJar'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}

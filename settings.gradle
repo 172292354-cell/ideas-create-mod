@@ -1,0 +1,57 @@
+// =============================================================================
+// 国内镜像加速配置（Gradle 插件 + 依赖仓库 + 工具链下载）
+//
+// 所有 Gradle 仓库查找顺序：阿里云 → 腾讯 → 中科大 → 项目自己定义的特殊仓库
+// =============================================================================
+
+pluginManagement {
+    repositories {
+        // -- 阿里云 Gradle 插件门户镜像 --
+        maven {
+            name = 'AliyunGradlePlugin'
+            url = 'https://maven.aliyun.com/repository/gradle-plugin'
+        }
+        // -- 阿里云公共仓库（绝大多数 Java 生态插件与库都在此） --
+        maven {
+            name = 'AliyunPublic'
+            url = 'https://maven.aliyun.com/repository/public'
+        }
+        // -- 中科大 gradle-plugin 镜像（阿里云缺失时的备用） --
+        maven {
+            name = 'USTCPlugin'
+            url = 'https://mirrors.ustc.edu.cn/gradle-caches/plugins.gradle.org/'
+        }
+        // ForgeGradle 的主构件发布在这里，阿里云/中科大不常镜像它
+        maven {
+            name = 'MinecraftForge'
+            url = 'https://maven.minecraftforge.net/'
+        }
+        // 最后兜底 Gradle 官方
+        gradlePluginPortal()
+    }
+}
+
+/* ------------------------------------------------------------------------------
+   Gradle 官方限制：settings 文件中 plugins {} 块必须紧贴 pluginManagement {}，
+   中间不能插入 dependencyResolutionManagement / rootProject.name 等其他语句。
+   ------------------------------------------------------------------------------ */
+// 工具链解析器（使用本机 JDK，见 gradle.properties 中的 auto-download=false + paths）
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
+}
+
+/* 统一把「国内公共 Maven 镜像」注入 dependencyResolutionManagement。
+   不强制设置 repositoriesMode = PREFER_SETTINGS，以免项目声明的特色仓库
+   （maven.createmod.net / maven.blamejared.com 等国内无镜像者）被禁用。 */
+dependencyResolutionManagement {
+    repositories {
+        maven { name = 'AliyunPublic'    ; url = 'https://maven.aliyun.com/repository/public' }
+        maven { name = 'TencentPublic'   ; url = 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public/' }
+        maven { name = 'USTCMavenCentral'; url = 'https://mirrors.ustc.edu.cn/maven/maven2/' }
+        maven { name = 'AliyunGoogle'    ; url = 'https://maven.aliyun.com/repository/google' }
+        maven { name = 'AliyunSpring'    ; url = 'https://maven.aliyun.com/repository/spring' }
+        maven { name = 'AliyunJCenter'   ; url = 'https://maven.aliyun.com/repository/jcenter' }
+    }
+}
+
+rootProject.name = 'ideas_create_mod'
