@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "item/generated",
   "textures": {
-    "all": "minecraft:block/netherrack"
+    "layer0": "ideas_create_mod:item/crushed_netherrack"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "minecraft:block/netherrack"
+    "layer0": "ideas_create_mod:item/compacted_netherrack"
   }
 }
