@@ -1,0 +1,30 @@
+{
+  "type": "create:mixing",
+  "heatRequirement": "superheated",
+  "ingredients": [
+    {
+      "item": "minecraft:cobblestone"
+    },
+    {
+      "item": "minecraft:netherite_scrap"
+    },
+    {
+      "fluid": "minecraft:lava",
+      "amount": 1000
+    }
+  ],
+  "results": [
+    {
+      "item": "create:asurine"
+    },
+    {
+      "item": "create:crimsite"
+    },
+    {
+      "item": "create:ochrum"
+    },
+    {
+      "item": "create:veridium"
+    }
+  ]
+}
